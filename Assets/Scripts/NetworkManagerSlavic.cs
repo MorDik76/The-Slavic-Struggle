@@ -13,7 +13,7 @@ public class NetworkManagerSlavic : NetworkManager
     public static NetworkManagerSlavic Instance { get; private set; }
     public static int pendingCharacterIndex;
 
-    void Awake()
+    public override void Awake()
     {
         if (Instance != null && Instance != this)
         {

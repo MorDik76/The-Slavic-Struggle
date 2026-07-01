@@ -9,7 +9,17 @@ public class MenuUI : MonoBehaviour
 
     void Start()
     {
-        if (playButton) playButton.onClick.AddListener(() => SceneManager.LoadScene("Lobby"));
-        if (exitButton) exitButton.onClick.AddListener(Application.Quit);
+        if (playButton) playButton.onClick.AddListener(PlayGame);
+        if (exitButton) exitButton.onClick.AddListener(ExitGame);
+    }
+
+    public void PlayGame()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

@@ -109,6 +109,11 @@ public class LobbyUI : MonoBehaviour
         GameObject card = new GameObject("Card", typeof(RectTransform), typeof(Image), typeof(Button));
         card.transform.SetParent(parent, false);
 
+        RectTransform rt = card.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.sizeDelta = Vector2.zero;
+
         Image img = card.GetComponent<Image>();
         img.sprite = sprite;
         img.preserveAspect = true;
