@@ -40,6 +40,5 @@ public class SlavicCamera : MonoBehaviour
 
         Vector3 targetPos = center + scaledOffset;
         transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
-        transform.LookAt(center);
     }
 }

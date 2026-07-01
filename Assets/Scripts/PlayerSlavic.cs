@@ -1,12 +1,12 @@
 using UnityEngine;
 using Mirror;
 
-[RequireComponent(typeof(NetworkTransform))]
 public class PlayerSlavic : NetworkBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 8f;
+    public float gravity = -20f;
 
     [Header("Combat")]
     public int maxHealth = 100;
@@ -18,7 +18,7 @@ public class PlayerSlavic : NetworkBehaviour
 
     [Header("Visual")]
     public Animator animator;
-    public Rigidbody rb;
+    public CharacterController controller;
 
     [SyncVar(hook = nameof(OnHealthChanged))]
     public int currentHealth;
@@ -27,6 +27,8 @@ public class PlayerSlavic : NetworkBehaviour
 
     private float lastAttackTime;
     private float lastSentDirection;
+    private Vector3 velocity;
+    private float serverMoveDirection;
 
     public override void OnStartServer()
     {
@@ -56,13 +58,25 @@ public class PlayerSlavic : NetworkBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (!isServer || isDead || controller == null) return;
+
+        Vector3 move = new Vector3(serverMoveDirection * moveSpeed, 0, 0);
+        controller.Move(move * Time.fixedDeltaTime);
+
+        if (controller.isGrounded && velocity.y < 0)
+            velocity.y = -2f;
+
+        velocity.y += gravity * Time.fixedDeltaTime;
+        controller.Move(velocity * Time.fixedDeltaTime);
+    }
+
     [Command]
     void CmdMove(float direction)
     {
         if (isDead) return;
-        Vector3 vel = rb.velocity;
-        vel.x = direction * moveSpeed;
-        rb.velocity = vel;
+        serverMoveDirection = direction;
         RpcSetSpeed(Mathf.Abs(direction));
     }
 
@@ -76,11 +90,8 @@ public class PlayerSlavic : NetworkBehaviour
     [Command]
     void CmdJump()
     {
-        if (isDead) return;
-        if (Mathf.Abs(rb.velocity.y) < 0.01f)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        if (isDead || !controller.isGrounded) return;
+        velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
     }
 
     [Command]
