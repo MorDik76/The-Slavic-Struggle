@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 784141778}
   - component: {fileID: 784141777}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -657,7 +657,7 @@ GameObject:
   - component: {fileID: 1090826878}
   - component: {fileID: 1090826877}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -846,6 +846,7 @@ GameObject:
   - component: {fileID: 1473504380}
   - component: {fileID: 1473504379}
   - component: {fileID: 1473504378}
+  - component: {fileID: 1473504382}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -939,6 +940,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1473504382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473504377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0abea3ac87ec6d47992cb53c44d8759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playButton: {fileID: 1090826877}
+  exitButton: {fileID: 784141777}
 --- !u!1 &2086378472
 GameObject:
   m_ObjectHideFlags: 0

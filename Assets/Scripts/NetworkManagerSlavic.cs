@@ -11,6 +11,7 @@ public class NetworkManagerSlavic : NetworkManager
     public float autoBootDelay = 1f;
 
     public static NetworkManagerSlavic Instance { get; private set; }
+    public static int pendingCharacterIndex;
 
     void Awake()
     {
@@ -20,6 +21,7 @@ public class NetworkManagerSlavic : NetworkManager
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         maxConnections = maxPlayerCount;
     }
 
