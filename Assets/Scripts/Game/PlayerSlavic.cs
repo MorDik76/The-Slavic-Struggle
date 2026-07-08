@@ -53,6 +53,9 @@ public class PlayerSlavic : NetworkBehaviour
     [SyncVar]
     public int weaponBonusDamage;
 
+    [SyncVar]
+    public int playerIndex;
+
     public bool isDead { get; private set; }
 
     private float lastAttackTime;
@@ -342,7 +345,11 @@ public class PlayerSlavic : NetworkBehaviour
     {
         isDead = true;
         RpcDie();
-        Invoke(nameof(EndGame), 2.5f);
+
+        if (GameManagerSlavic.Instance != null)
+            GameManagerSlavic.Instance.OnPlayerDied(this);
+        else
+            Invoke(nameof(EndGame), 2.5f);
     }
 
     [ClientRpc]
@@ -358,6 +365,44 @@ public class PlayerSlavic : NetworkBehaviour
     {
         if (NetworkManagerSlavic.Instance != null)
             NetworkManagerSlavic.Instance.ServerChangeScene(NetworkManagerSlavic.Instance.offlineScene);
+    }
+
+    [Server]
+    public void ServerRespawn(Vector3 position, Quaternion rotation)
+    {
+        isDead = false;
+        currentHealth = maxHealth;
+        currentStamina = maxStamina;
+        isBlocking = false;
+        hasWeapon = false;
+        weaponBonusDamage = 0;
+        velocity = Vector3.zero;
+        knockbackVelocity = Vector3.zero;
+        serverMoveDirection = 0;
+
+        transform.position = position;
+        transform.rotation = rotation;
+
+        RpcRespawn(position, rotation);
+    }
+
+    [ClientRpc]
+    void RpcRespawn(Vector3 position, Quaternion rotation)
+    {
+        isDead = false;
+        transform.position = position;
+        transform.rotation = rotation;
+
+        if (animator)
+            animator.ResetTrigger("Die");
+
+        SetColor(originalColor);
+
+        if (currentWeaponVisual)
+        {
+            Destroy(currentWeaponVisual);
+            currentWeaponVisual = null;
+        }
     }
 
     void OnHealthChanged(int oldVal, int newVal)

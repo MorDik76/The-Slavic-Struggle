@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class GameUI : MonoBehaviour
 {
@@ -20,29 +19,29 @@ public class GameUI : MonoBehaviour
     void Update()
     {
         PlayerSlavic[] all = FindObjectsOfType<PlayerSlavic>();
-        List<PlayerSlavic> alive = new List<PlayerSlavic>();
+        PlayerSlavic p1 = null, p2 = null;
         foreach (PlayerSlavic p in all)
         {
-            if (p.isDead) continue;
-            alive.Add(p);
+            if (p.playerIndex == 1) p1 = p;
+            else if (p.playerIndex == 2) p2 = p;
         }
 
-        if (alive.Count >= 1)
+        if (p1 != null)
         {
             if (player1NameText) player1NameText.text = player1Label;
             if (player1HealthSlider)
-                player1HealthSlider.value = (float)alive[0].currentHealth / alive[0].maxHealth;
+                player1HealthSlider.value = (float)p1.currentHealth / p1.maxHealth;
             if (player1StaminaSlider)
-                player1StaminaSlider.value = alive[0].currentStamina / alive[0].maxStamina;
+                player1StaminaSlider.value = p1.currentStamina / p1.maxStamina;
         }
 
-        if (alive.Count >= 2)
+        if (p2 != null)
         {
             if (player2NameText) player2NameText.text = player2Label;
             if (player2HealthSlider)
-                player2HealthSlider.value = (float)alive[1].currentHealth / alive[1].maxHealth;
+                player2HealthSlider.value = (float)p2.currentHealth / p2.maxHealth;
             if (player2StaminaSlider)
-                player2StaminaSlider.value = alive[1].currentStamina / alive[1].maxStamina;
+                player2StaminaSlider.value = p2.currentStamina / p2.maxStamina;
         }
     }
 }

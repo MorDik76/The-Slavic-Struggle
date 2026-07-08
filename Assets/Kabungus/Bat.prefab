@@ -104,7 +104,7 @@ MonoBehaviour:
   isHealItem: 0
   bonusDamage: 15
   healAmount: 0
-  weaponVisualIndex: 1
+  weaponVisualIndex: 0
 --- !u!114 &4242363811756632179
 MonoBehaviour:
   m_ObjectHideFlags: 0

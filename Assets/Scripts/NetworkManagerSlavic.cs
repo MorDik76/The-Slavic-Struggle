@@ -40,8 +40,14 @@ public class NetworkManagerSlavic : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        Transform spawn = FindSpawnPoint(numPlayers == 0);
+        bool isFirstPlayer = numPlayers == 0;
+        Transform spawn = FindSpawnPoint(isFirstPlayer);
         GameObject player = Instantiate(playerPrefab, spawn.position, spawn.rotation);
+
+        PlayerSlavic ps = player.GetComponent<PlayerSlavic>();
+        if (ps != null)
+            ps.playerIndex = isFirstPlayer ? 1 : 2;
+
         NetworkServer.AddPlayerForConnection(conn, player);
     }
 
