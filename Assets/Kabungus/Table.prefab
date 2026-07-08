@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 4790596025395013095}
   - component: {fileID: 8490488306425817666}
   - component: {fileID: 5922428573314883208}
+  - component: {fileID: -942001575078708595}
+  - component: {fileID: 7884296981841912429}
+  - component: {fileID: -2599322695854747114}
   m_Layer: 0
   m_Name: Table
   m_TagString: Untagged
@@ -83,3 +86,52 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-942001575078708595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273799931518336861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 18512149
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!65 &7884296981841912429
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273799931518336861}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.968721, y: 0.99153423, z: 2.5971937}
+  m_Center: {x: -0.05311042, y: 0.5037929, z: -0.00065875053}
+--- !u!114 &-2599322695854747114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273799931518336861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f6986f62873e54d97a8ae52c501a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  isHealItem: 0
+  bonusDamage: 30
+  healAmount: 30
+  weaponVisualIndex: 1

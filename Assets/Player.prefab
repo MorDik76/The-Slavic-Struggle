@@ -67,6 +67,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9083046693805870448}
+  - {fileID: 577127174979803441}
+  - {fileID: 7151804589118390395}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,9 +212,30 @@ MonoBehaviour:
   knockbackForce: 10
   attackPoint: {fileID: 9083046693805870448}
   attackKey: 323
+  pickupRange: 3
+  pickupKey: 102
+  switchKey: 113
+  weaponHolders:
+  - {fileID: 577127174979803441}
+  - {fileID: 7151804589118390395}
+  weaponVisualPrefabs:
+  - {fileID: 7766828980278665741, guid: 1a923a6404d972d40bae42bee1136b84, type: 3}
+  - {fileID: 5273799931518336861, guid: 2d59a8765efbde941a0fff9e8280286c, type: 3}
+  - {fileID: 216043043027239904, guid: b2ca064993d295c48bc82d03be79531a, type: 3}
+  maxStamina: 100
+  staminaRegenRate: 8
+  attackStaminaCost: 15
+  blockStaminaDrainRate: 5
+  blockStaminaCost: 10
+  blockDamageMultiplier: 0.5
+  blockKey: 324
   animator: {fileID: 0}
   controller: {fileID: -5415871823302848876}
   currentHealth: 0
+  currentStamina: 0
+  isBlocking: 0
+  hasWeapon: 0
+  weaponBonusDamage: 0
 --- !u!143 &-5415871823302848876
 CharacterController:
   m_ObjectHideFlags: 0
@@ -231,3 +254,65 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4562335944844835921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 577127174979803441}
+  m_Layer: 0
+  m_Name: weapon 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &577127174979803441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562335944844835921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.798, y: -0.279, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4509797872343133867}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4726493071552733093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7151804589118390395}
+  m_Layer: 0
+  m_Name: weapon 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7151804589118390395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4726493071552733093}
+  m_LocalRotation: {x: -0, y: -0.9998296, z: -0, w: -0.018461403}
+  m_LocalPosition: {x: -0.823, y: -0.318, z: 0.128}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4509797872343133867}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: -182.116, z: 0}

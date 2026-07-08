@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 6954263033493878967}
   - component: {fileID: 6281777074235995922}
   - component: {fileID: 8127218036640285656}
+  - component: {fileID: 8102443304740170781}
+  - component: {fileID: 4242363811756632179}
+  - component: {fileID: 3588109206240356377}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Untagged
@@ -83,3 +86,52 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8102443304740170781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7766828980278665741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f6986f62873e54d97a8ae52c501a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  isHealItem: 0
+  bonusDamage: 15
+  healAmount: 0
+  weaponVisualIndex: 1
+--- !u!114 &4242363811756632179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7766828980278665741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1383039831
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!65 &3588109206240356377
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7766828980278665741}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4855805, y: 0.93969, z: 0.44956023}
+  m_Center: {x: 0.015982337, y: 0.47079855, z: 0.019421548}

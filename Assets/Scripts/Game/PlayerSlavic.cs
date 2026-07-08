@@ -11,12 +11,19 @@ public class PlayerSlavic : NetworkBehaviour
 
     [Header("Combat")]
     public int maxHealth = 100;
-    public int damage = 25;
+    public int damage = 10;
     public float attackRange = 2f;
     public float attackCooldown = 0.5f;
     public float knockbackForce = 10f;
     public Transform attackPoint;
     public KeyCode attackKey = KeyCode.Mouse0;
+
+    [Header("Pickup Weapon")]
+    public float pickupRange = 3f;
+    public KeyCode pickupKey = KeyCode.F;
+    public KeyCode switchKey = KeyCode.Q;
+    public Transform[] weaponHolders;
+    public GameObject[] weaponVisualPrefabs;
 
     [Header("Stamina & Block")]
     public float maxStamina = 100f;
@@ -40,6 +47,12 @@ public class PlayerSlavic : NetworkBehaviour
     [SyncVar(hook = nameof(OnBlockingChanged))]
     public bool isBlocking;
 
+    [SyncVar(hook = nameof(OnHasWeaponChanged))]
+    public bool hasWeapon;
+
+    [SyncVar]
+    public int weaponBonusDamage;
+
     public bool isDead { get; private set; }
 
     private float lastAttackTime;
@@ -50,6 +63,8 @@ public class PlayerSlavic : NetworkBehaviour
     private Renderer cachedRenderer;
     private Color originalColor;
     private bool wasBlockingLocal;
+    private GameObject currentWeaponVisual;
+    private int currentHolderIndex;
 
     void Start()
     {
@@ -93,6 +108,34 @@ public class PlayerSlavic : NetworkBehaviour
         {
             wasBlockingLocal = wantsBlock;
             CmdSetBlocking(wantsBlock);
+        }
+
+        if (Input.GetKeyDown(pickupKey))
+            TryPickup();
+
+        if (Input.GetKeyDown(switchKey) && hasWeapon)
+            SwitchHolder();
+    }
+
+    void SwitchHolder()
+    {
+        if (weaponHolders.Length == 0 || !currentWeaponVisual) return;
+        currentHolderIndex = (currentHolderIndex + 1) % weaponHolders.Length;
+        currentWeaponVisual.transform.SetParent(weaponHolders[currentHolderIndex], false);
+        currentWeaponVisual.transform.localPosition = Vector3.zero;
+        currentWeaponVisual.transform.localRotation = Quaternion.identity;
+    }
+
+    void TryPickup()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
+        foreach (Collider hit in hits)
+        {
+            if (hit.TryGetComponent<PickupItem>(out var pickup))
+            {
+                CmdPickupItem(pickup.netId);
+                return;
+            }
         }
     }
 
@@ -157,13 +200,28 @@ public class PlayerSlavic : NetworkBehaviour
         currentStamina -= attackStaminaCost;
         RpcPlayAttackAnimation();
 
+        int totalDamage = damage;
+        bool usedWeapon = false;
+        if (hasWeapon)
+        {
+            totalDamage += weaponBonusDamage;
+            usedWeapon = true;
+        }
+
         Collider[] hits = Physics.OverlapSphere(attackPoint ? attackPoint.position : transform.position, attackRange);
         foreach (Collider hit in hits)
         {
             if (hit.TryGetComponent<PlayerSlavic>(out PlayerSlavic target) && target != this)
             {
-                target.TakeDamage(damage, transform.position);
+                target.TakeDamage(totalDamage, transform.position);
             }
+        }
+
+        if (usedWeapon)
+        {
+            hasWeapon = false;
+            weaponBonusDamage = 0;
+            RpcBreakWeapon();
         }
     }
 
@@ -231,6 +289,52 @@ public class PlayerSlavic : NetworkBehaviour
     void OnBlockingChanged(bool oldVal, bool newVal)
     {
         SetColor(newVal ? new Color(1f, 0.6f, 0f) : originalColor);
+    }
+
+    void OnHasWeaponChanged(bool oldVal, bool newVal) { }
+
+    [Command]
+    void CmdPickupItem(uint pickupNetId)
+    {
+        PickupItem[] all = FindObjectsOfType<PickupItem>();
+        foreach (PickupItem pickup in all)
+        {
+            if (pickup.netId == pickupNetId)
+            {
+                if (pickup.isHealItem)
+                {
+                    currentHealth = Mathf.Min(maxHealth, currentHealth + pickup.healAmount);
+                    NetworkServer.Destroy(pickup.gameObject);
+                    return;
+                }
+
+                if (hasWeapon || isDead) return;
+                hasWeapon = true;
+                weaponBonusDamage = pickup.bonusDamage;
+                RpcShowWeapon(pickup.weaponVisualIndex);
+                NetworkServer.Destroy(pickup.gameObject);
+                return;
+            }
+        }
+    }
+
+    [ClientRpc]
+    void RpcShowWeapon(int visualIndex)
+    {
+        currentHolderIndex = 0;
+        if (visualIndex >= 0 && visualIndex < weaponVisualPrefabs.Length && weaponHolders.Length > 0 && weaponHolders[0])
+            currentWeaponVisual = Instantiate(weaponVisualPrefabs[visualIndex], weaponHolders[0]);
+    }
+
+    [ClientRpc]
+    void RpcBreakWeapon()
+    {
+        currentHolderIndex = 0;
+        if (currentWeaponVisual)
+        {
+            Destroy(currentWeaponVisual);
+            currentWeaponVisual = null;
+        }
     }
 
     [Server]
