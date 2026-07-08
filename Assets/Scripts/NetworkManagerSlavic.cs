@@ -12,6 +12,7 @@ public class NetworkManagerSlavic : NetworkManager
 
     public static NetworkManagerSlavic Instance { get; private set; }
     public static int pendingCharacterIndex;
+    public static string pendingNickname = "Player";
 
     public override void Awake()
     {
@@ -39,9 +40,20 @@ public class NetworkManagerSlavic : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        Transform spawn = numPlayers == 0 ? player1Spawn : player2Spawn;
+        Transform spawn = FindSpawnPoint(numPlayers == 0);
         GameObject player = Instantiate(playerPrefab, spawn.position, spawn.rotation);
         NetworkServer.AddPlayerForConnection(conn, player);
+    }
+
+    Transform FindSpawnPoint(bool isPlayer1)
+    {
+        string name = isPlayer1 ? "Player1Spawn" : "Player2Spawn";
+        GameObject found = GameObject.Find(name);
+        if (found != null) return found.transform;
+        Transform serialized = isPlayer1 ? player1Spawn : player2Spawn;
+        if (serialized != null) return serialized;
+        Debug.LogError($"Spawn point '{name}' not found in scene! Place a GameObject named '{name}' in the scene.");
+        return transform;
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)

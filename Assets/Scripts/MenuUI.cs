@@ -26,6 +26,9 @@ public class MenuUI : MonoBehaviour
             nicknameInput.text = saved;
 
         if (searchingPanel) searchingPanel.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void OnPlayButton()
